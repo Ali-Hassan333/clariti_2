@@ -3,10 +3,10 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import prisma from '@/prisma';
 import { z } from 'zod';
-import { authOptions } from '../../auth/[...nextauth]/route';
 import puppeteer from 'puppeteer';
 import fs from 'fs';
 import path from 'path';
+import authOptions from '@/app/auth/authOptions';
 
 const generatePdfSchema = z.object({
   reportId: z.string(),

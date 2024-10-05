@@ -4,8 +4,8 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 import prisma from '@/prisma';
 import { z } from 'zod';
-import { authOptions } from '../../auth/[...nextauth]/route';
 import { sendPdfEmail } from '@/app/helpers/pdfEmailSender';
+import authOptions from '@/app/auth/authOptions';
 
 const sendPatientEmailSchema = z.object({
   reportId: z.string().min(1, 'Invalid report ID'),  // Removed .uuid() validation
