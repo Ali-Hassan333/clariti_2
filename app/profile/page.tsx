@@ -1,8 +1,8 @@
 import { getServerSession } from 'next-auth';
 import React from 'react'
-import { authOptions } from '../api/auth/[...nextauth]/route';
 import prisma from '@/prisma';
 import Footer from '../components/Footer';
+import authOptions from '../auth/authOptions';
 const page = async () => {
 
     const session = await getServerSession(authOptions);

@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth/next';
 
 import { sendPdfEmail } from '@/app/helpers/pdfEmailSender';
 import prisma from '@/prisma'; // Adjust the import path as needed
-import { authOptions } from '../auth/[...nextauth]/route';
+import authOptions from '@/app/auth/authOptions';
 
 export async function POST(req: Request) {
   const { reportId, pdf, reportTitle } = await req.json();
