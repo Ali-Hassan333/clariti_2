@@ -22,7 +22,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 h-fit max-w-[100rem] mx-auto my-6 px-4 py-2 md:px-6 lg:px-8 w-full bg-white  rounded-lg">
+    <nav className="sticky top-0 z-50 h-fit max-w-[100rem] mx-auto my-6 px-4 py-2 md:px-6 lg:px-8 w-full rounded-lg">
       <div className="flex items-center justify-between">
         {/* Left Section */}
         <div className="flex items-center gap-6">
