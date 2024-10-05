@@ -13,7 +13,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "HealthPlatform",
   description: "Your comprehensive health management platform.",
-  metadataBase: new URL("http://localhost:3000"),
+  metadataBase: new URL("https://clariti-2.vercel.app/"),
 };
 
 export default function RootLayout({
