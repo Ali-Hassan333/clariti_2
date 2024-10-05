@@ -1,5 +1,3 @@
-// app/components/Navbar.tsx
-
 "use client";
 
 import Link from "next/link";
@@ -7,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { useState, useEffect, Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react"; // For dropdowns
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline"; // For mobile menu icons
 import avatar from '@/public/users-avatar.png'
 import Image from "next/image";
 import React from "react";
@@ -21,72 +20,78 @@ const Navbar = () => {
     router.push("/");
   };
 
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
-    <nav className="sticky top-0 z-50 h-fit max-w-[100rem] mx-auto my-6 px-4 py-2 md:px-6 lg:px-8 w-full rounded-lg">
+    <nav className="sticky top-0 z-50 h-fit max-w-[100rem] mx-auto px-4 py-4 sm:px-6 lg:px-8 w-full  ">
       <div className="flex items-center justify-between">
         {/* Left Section */}
         <div className="flex items-center gap-6">
           <Link href="/" className="flex z-40 font-semibold">
             <img
               src="/logo.png"
-              className="w-36 sm:w-40 2xl:w-44"
+              className="w-32 sm:w-40"
               alt="HealthPlatform Logo"
             />
           </Link>
-         
         </div>
 
-        {/* Right Section */}
-        <div className="flex items-center space-x-2 sm:space-x-4">
-        <Link href="/facilityhome">
-            <span className="font-bold pr-10 text-[#067c73] hover:text-blue-700 cursor-pointer">
+        {/* Hamburger Menu for Mobile */}
+        <div className="sm:hidden flex items-center">
+          <button onClick={toggleMenu} className="text-gray-800 focus:outline-none">
+            {isOpen ? (
+              <XMarkIcon className="w-8 h-8" />
+            ) : (
+              <Bars3Icon className="w-8 h-8" />
+            )}
+          </button>
+        </div>
+
+        {/* Right Section (Visible on larger screens) */}
+        <div className="hidden sm:flex items-center  space-x-2 sm:space-x-4">
+          <Link href="/facilityhome">
+            <span className="font-bold pr-6 text-[#067c73] hover:text-blue-700 cursor-pointer">
               FOR LABS & HEALTHCARE PROVIDERS
             </span>
           </Link>
           <Link href="/pricing">
-            <button className="text-white  bg-black border border-black text-lg px-4 md:px-6 py-2 font-semibold rounded-lg hover:bg-white hover:text-black transition">
-              {session ? "Upgrade Now":"Pricing"}
-              
+            <button className="text-white bg-black border border-black text-sm px-4 py-2 font-semibold rounded-lg hover:bg-white hover:text-black transition">
+              {session ? "Upgrade Now" : "Pricing"}
             </button>
           </Link>
           <Link href="/faqs">
-            <button className="text-white bg-black border border-black text-lg px-4 md:px-6 py-2 font-semibold rounded-lg hover:bg-white hover:text-black transition">
+            <button className="text-white bg-black border border-black text-sm px-4 py-2 font-semibold rounded-lg hover:bg-white hover:text-black transition">
               FAQ&apos;s
             </button>
           </Link>
           {session ? (
             <>
               <Link href={session.user.role === 'FACILITY' ? '/facility/dashboard' : "/dashboard"}>
-                <button className="text-white bg-black border border-black text-lg px-4 md:px-6 py-2 font-semibold rounded-lg hover:bg-white hover:text-black transition">
+                <button className="text-white bg-black border border-black text-sm px-4 py-2 font-semibold rounded-lg hover:bg-white hover:text-black transition">
                   Dashboard
                 </button>
               </Link>
 
-              {/* Admin Link (Visible Only to Admins) */}
               {session.user.role === "ADMIN" && (
                 <Link href="/admin">
-                  <button className="text-white bg-black border border-black text-lg px-4 md:px-6 py-2 font-semibold rounded-lg hover:bg-white hover:text-black transition">
+                  <button className="text-white bg-black border border-black text-sm px-4 py-2 font-semibold rounded-lg hover:bg-white hover:text-black transition">
                     Admin
                   </button>
                 </Link>
               )}
 
-              {/* User Profile Dropdown */}
               <Menu as="div" className="relative inline-block text-left">
-                <div className=" rounded-full  flex items-center justify-center">
-                  <Menu.Button className="w-8 h-8 rounded-full ">
-                   
-                      <Image
-                        src={avatar}
-                        alt="User Avatar"
-                        className="w-8 h-8 rounded-full"
-                      />
-                   
-                    
-                    {/* <ChevronDownIcon className="w-5 h-5" aria-hidden="true" /> */}
+                <div className="rounded-full flex items-center  justify-center">
+                  <Menu.Button className="w-8 h-8 rounded-full">
+                    <Image
+                      src={avatar}
+                      alt="User Avatar"
+                      className="w-8 h-8 rounded-full"
+                    />
                   </Menu.Button>
                 </div>
-
                 <Transition
                   as={Fragment}
                   enter="transition ease-out duration-100"
@@ -129,13 +134,64 @@ const Navbar = () => {
             </>
           ) : (
             <Link href="/login">
-              <button className="text-white bg-black border border-black text-lg px-4 md:px-6 py-2 font-semibold rounded-lg hover:bg-white hover:text-black transition">
+              <button className="text-white bg-black border border-black text-sm px-4 py-2 font-semibold rounded-lg hover:bg-white hover:text-black transition">
                 Login
               </button>
             </Link>
           )}
         </div>
       </div>
+
+      {/* Mobile Menu (Only visible when isOpen is true) */}
+      {isOpen && (
+        <div className="sm:hidden mt-4  space-y-2">
+          <Link href="/facilityhome">
+            <span className="block font-bold mb-4 text-[#067c73] hover:text-blue-700 cursor-pointer">
+              FOR LABS & HEALTHCARE PROVIDERS
+            </span>
+          </Link>
+          <Link href="/pricing">
+            <button className="w-full text-white mb-4 bg-black border border-black text-sm px-4 py-2 font-semibold rounded-lg hover:bg-white hover:text-black transition">
+              {session ? "Upgrade Now" : "Pricing"}
+            </button>
+          </Link>
+          <Link href="/faqs">
+            <button className="w-full text-white mb-4 bg-black border border-black text-sm px-4 py-2 font-semibold rounded-lg hover:bg-white hover:text-black transition">
+              FAQ&apos;s
+            </button>
+          </Link>
+          {session ? (
+            <>
+              <Link href={session.user.role === 'FACILITY' ? '/facility/dashboard' : "/dashboard"}>
+                <button className="w-full text-white bg-black border border-black text-sm px-4 py-2 font-semibold rounded-lg hover:bg-white hover:text-black transition">
+                  Dashboard
+                </button>
+              </Link>
+
+              {session.user.role === "ADMIN" && (
+                <Link href="/admin">
+                  <button className="w-full text-white bg-black border border-black text-sm px-4 py-2 font-semibold rounded-lg hover:bg-white hover:text-black transition">
+                    Admin
+                  </button>
+                </Link>
+              )}
+
+              <button
+                onClick={handleLogout}
+                className="w-full text-left text-sm px-4 py-2 text-gray-700"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <Link href="/login">
+              <button className="w-full text-white bg-black border border-black text-sm px-4 py-2 font-semibold rounded-lg hover:bg-white hover:text-black transition">
+                Login
+              </button>
+            </Link>
+          )}
+        </div>
+      )}
     </nav>
   );
 };
