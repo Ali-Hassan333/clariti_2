@@ -23,7 +23,7 @@ const processOpenAISchema = z.object({
     )
     .min(1, "Lab results are required"),
 });
-export const maxDuration = 25;
+export const maxDuration = 29;
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
 
